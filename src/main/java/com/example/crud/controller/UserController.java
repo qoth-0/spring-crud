@@ -27,6 +27,11 @@ public class UserController {
         return "ok";
     }
 
+//    회원 목록 조회
+    @GetMapping("/list")
+    public List<UserResDto> userList() {
+        return userService.userList();
+    }
 
 
 }

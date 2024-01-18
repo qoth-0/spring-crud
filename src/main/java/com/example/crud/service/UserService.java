@@ -26,5 +26,20 @@ public class UserService {
         userRepository.save(user);
     }
 
+//    회원 목록
+    public List<UserResDto> userList() {
+        List<User> users = userRepository.findAll();
+        List<UserResDto> userResDtos = new ArrayList<>();
+        for(User user : users) {
+            UserResDto userResDto = new UserResDto();
+            userResDto.setName(user.getName());
+            userResDto.setEmail(user.getEmail());
+            userResDto.setCreate_time(user.getCreate_time());
+            userResDtos.add(userResDto);
+        }
+        return userResDtos;
+    }
+
+
 
 }
