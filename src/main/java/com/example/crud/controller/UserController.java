@@ -1,44 +1,32 @@
 package com.example.crud.controller;
 
 import com.example.crud.domain.UserReqDto;
+import com.example.crud.domain.UserResDto;
 import com.example.crud.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
-@Controller
+import java.lang.reflect.Member;
+import java.util.List;
+
+@RestController
+@RequestMapping("/api/users")
 public class UserController {
     private final UserService userService;
-
+    @Autowired
     public UserController(UserService userService) {
         this.userService = userService;
     }
 
-    //    홈화면
-    @GetMapping("/")
-    public String home() {
-        return "home";
-    }
-
 //    회원가입
-    @GetMapping("/users/join")
-    public String joinScreen() {
-        return "user/user-join";
-    }
-    @PostMapping("/users/join")
-    @ResponseBody
-    public String join(UserReqDto userReqDto) { // 데이터 바인딩
+    @PostMapping("/create")
+    public String userCreate(@RequestBody UserReqDto userReqDto) {
         userService.userCreate(userReqDto);
-        return "";
+        return "ok";
     }
 
-//    회원 목록 조회
-    @GetMapping("/users")
-    public String userList(Model model) {
-        model.addAttribute("users", userService.users());
-        return "user/user-list";
-    }
+
 
 }
