@@ -35,6 +35,7 @@ public class UserService {
             userResDto.setName(user.getName());
             userResDto.setEmail(user.getEmail());
             userResDto.setCreate_time(user.getCreate_time());
+            userResDto.setUpdate_time(user.getUpdate_time());
             userResDtos.add(userResDto);
         }
         return userResDtos;
@@ -48,6 +49,7 @@ public class UserService {
         userResDto.setName(user.getName());
         userResDto.setEmail(user.getEmail());
         userResDto.setCreate_time(user.getCreate_time());
+        userResDto.setUpdate_time(user.getUpdate_time());
         return userResDto;
     }
 
@@ -55,6 +57,13 @@ public class UserService {
     public void userDelete(int id) {
         User user = userRepository.findById(id).orElseThrow(EntityNotFoundException::new);
         userRepository.delete(user);
+    }
+
+//    회원 수정
+    public void userUpdate(int id, UserReqDto userReqDto) {
+        User user = userRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+        user.userUpdate(userReqDto.getName(), userReqDto.getEmail(), userReqDto.getPassword());
+        userRepository.save(user);
     }
 
 }
