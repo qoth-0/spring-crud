@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,7 +22,7 @@ public class UserService {
     }
 
 //    회원 가입
-    public void userCreate(UserReqDto userReqDto) {
+    public void userCreate(UserReqDto userReqDto) throws SQLIntegrityConstraintViolationException {
         User user = new User(userReqDto.getName(), userReqDto.getEmail(), userReqDto.getPassword());
         userRepository.save(user);
     }
@@ -42,9 +43,9 @@ public class UserService {
     }
 
 //    회원 상세
-    public UserResDto userInfo(int id) {
+    public UserResDto userInfo(int id) throws EntityNotFoundException{ // Controller로 예외 던지기
 //        findById는 Optional을 반환하므로 orElseThrow로 null일 경우 예외처리 - DB에 존재하지 않을 경우
-        User user = userRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+        User user = userRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("존재하지 않는 회원입니다."));
         UserResDto userResDto = new UserResDto();
         userResDto.setName(user.getName());
         userResDto.setEmail(user.getEmail());
