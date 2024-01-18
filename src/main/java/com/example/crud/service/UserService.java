@@ -51,5 +51,10 @@ public class UserService {
         return userResDto;
     }
 
+//    회원 삭제
+    public void userDelete(int id) {
+        User user = userRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+        userRepository.delete(user);
+    }
 
 }

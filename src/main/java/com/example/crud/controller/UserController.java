@@ -39,6 +39,12 @@ public class UserController {
         return userService.userInfo(id);
     }
 
+//    회원 삭제
+    @DeleteMapping("/delete/{id}")
+    public String userDelete(@PathVariable int id) {
+        userService.userDelete(id);
+        return "삭제 완료";
+    }
 
 
 }
