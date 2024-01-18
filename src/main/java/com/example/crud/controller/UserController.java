@@ -24,7 +24,7 @@ public class UserController {
     @PostMapping("/create")
     public String userCreate(@RequestBody UserReqDto userReqDto) {
         userService.userCreate(userReqDto);
-        return "ok";
+        return "가입 완료";
     }
 
 //    회원 목록 조회
@@ -32,6 +32,13 @@ public class UserController {
     public List<UserResDto> userList() {
         return userService.userList();
     }
+
+//    회원 상세 조회
+    @GetMapping("/info/{id}")
+    public UserResDto userInfo(@PathVariable int id) {
+        return userService.userInfo(id);
+    }
+
 
 
 }

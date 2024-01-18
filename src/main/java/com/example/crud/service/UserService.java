@@ -40,6 +40,16 @@ public class UserService {
         return userResDtos;
     }
 
+//    회원 상세
+    public UserResDto userInfo(int id) {
+//        findById는 Optional을 반환하므로 orElseThrow로 null일 경우 예외처리 - DB에 존재하지 않을 경우
+        User user = userRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+        UserResDto userResDto = new UserResDto();
+        userResDto.setName(user.getName());
+        userResDto.setEmail(user.getEmail());
+        userResDto.setCreate_time(user.getCreate_time());
+        return userResDto;
+    }
 
 
 }
