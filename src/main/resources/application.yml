@@ -2,7 +2,7 @@ spring:
 #  DB ??
   datasource:
     driver-class-name: org.mariadb.jdbc.Driver
-    url: jdbc:mariadb://localhost:3307/example
+    url: jdbc:mariadb://localhost:3306/example
     username: root
     password: 1234
 #  JPA
