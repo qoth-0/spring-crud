@@ -7,14 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.EntityNotFoundException;
-import javax.websocket.server.PathParam;
-import java.lang.reflect.Member;
-import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 
 @RestController
@@ -31,7 +26,7 @@ public class UserController {
     public ResponseEntity<String> userCreate(@RequestBody UserReqDto userReqDto) {
         try {
             userService.userCreate(userReqDto);
-            return new ResponseEntity<>(userReqDto.getName()+"님, 환영합니다.", HttpStatus.CREATED);
+            return new ResponseEntity<>(userReqDto.getEmail()+"은 사용 가능합니다.", HttpStatus.CREATED);
         }catch (DataIntegrityViolationException e) { // 메일 중복 시
             e.printStackTrace();
             return new ResponseEntity<>("중복된 이메일입니다.", HttpStatus.CONFLICT);
@@ -44,16 +39,16 @@ public class UserController {
         return userService.userList();
     }
 
-////    회원 상세 조회
-//    @GetMapping("/info/{id}")
-//    public ResponseEntity<UserResDto> userInfo(@PathVariable int id) { // id 없을 때 에러
-//        try {
-//            return new ResponseEntity<>(userService.userInfo(id), HttpStatus.OK);
-//        }catch (EntityNotFoundException e) { // 존재하지 않을 경우 404
-//            e.printStackTrace();
-//            return ResponseEntityController.failed(HttpStatus.NOT_FOUND, e.getMessage());
-//        }
-//    }
+//    회원 상세 조회
+    @GetMapping("/info/{id}")
+    public ResponseEntity<UserResDto> userInfo(@PathVariable int id) {
+        try {
+            return new ResponseEntity<>(userService.userInfo(id), HttpStatus.OK);
+        }catch (EntityNotFoundException e) { // id가 존재하지 않을 경우 404
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
 
 //    회원 삭제
     @DeleteMapping("/delete/{id}")

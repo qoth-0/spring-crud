@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 
 @Getter
 @Entity
-@NoArgsConstructor // Entity 사용 시 기본생성자 필수
+@NoArgsConstructor // Entity 사용 시 기본생성자 필수 -> 리플렉션(런타임상황에서 클래스, 변수, 메소드에 직접 접근)사용
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
